@@ -1,0 +1,46 @@
+{
+  "type": "array",
+  "length": {
+    "type": "number",
+    "subtype": "u64",
+    "constant": 10
+  },
+  "content": {
+    "user_id": {
+      "type": "number",
+      "subtype": "u64",
+      "id": {
+        "start_at": 1001
+      }
+    },
+    "state": {
+      "type": "string",
+      "faker": {
+        "generator": "state_name"
+      }
+    },
+    "type": "object",
+    "credit_score": {
+      "type": "number",
+      "subtype": "u64",
+      "range": {
+        "low": 600,
+        "high": 750,
+        "step": 5
+      }
+    },
+    "account_age_days": {
+      "type": "number",
+      "subtype": "u64",
+      "range": {
+        "low": 1,
+        "high": 2000,
+        "step": 1
+      }
+    },
+    "has_2fa_installed": {
+      "type": "bool",
+      "frequency": 0.5
+    }
+  }
+}
