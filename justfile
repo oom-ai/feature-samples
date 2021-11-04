@@ -6,7 +6,7 @@ list:
 		echo "$(basename "$f")"
 	done
 
-gen size scenario_path:
+gen scenario_path size:
 	#!/usr/bin/env bash
 	set -euo pipefail
 
