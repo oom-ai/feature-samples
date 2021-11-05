@@ -6,7 +6,7 @@
     "constant": 10
   },
   "content": {
-    "user_id": {
+    "user": {
       "type": "number",
       "subtype": "u64",
       "id": {

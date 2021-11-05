@@ -6,11 +6,8 @@
     "constant": 10
   },
   "content": {
-    "user_id": {
-      "type": "same_as",
-      "ref": "user_account.content.user_id"
-    },
     "type": "object",
+    "user": "@user_account.content.user",
     "transaction_count_7d": {
       "type": "number",
       "subtype": "u64",
@@ -24,8 +21,8 @@
       "type": "number",
       "subtype": "u64",
       "range": {
-        "low": 0,
-        "high": 45,
+        "low": 15,
+        "high": 60,
         "step": 1
       }
     }
