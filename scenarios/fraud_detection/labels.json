@@ -1,0 +1,30 @@
+{
+  "type": "array",
+  "length": {
+    "type": "number",
+    "subtype": "u64",
+    "constant": "{{SIZE}}"
+
+  },
+  "content": {
+    "type": "object",
+    "user": {
+      "type": "number",
+      "subtype": "u64",
+      "range": {
+        "low": 1,
+        "high": "{{SIZE}}",
+        "step": 1
+      }
+    },
+    "timestamp": {
+      "type": "number",
+      "subtype": "u64",
+      "range": {
+        "low": 1609430400,
+        "high": 1612108800,
+        "step": 1
+      }
+    }
+  }
+}
