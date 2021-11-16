@@ -17,13 +17,15 @@ gen scenario_path size:
 	scenario_name=$(basename "{{ scenario_path }}")
 	IN="build/$scenario_name/in"
 	OUT="build/$scenario_name/out"
-	data="$OUT/$scenario_name.json"
+	data="$OUT/data.json"
 	tables=()
 	mkdir -p "$IN" "$OUT"
 
 	for f in "{{ scenario_path }}"/*.json; do
-		tables+=("$(basename "$f" .json)")
+		table="$(basename "$f" .json)"
 		< "$f" sed 's/"{{{{SIZE}}"/{{ size }}/g' > "$IN/$(basename "$f")"
+		< "$f" jq '.content | keys_unsorted[]' -r | grep -v type > "$IN/$table.fields"
+		tables+=("$table")
 	done
 
 	info "run synth ..."
@@ -31,7 +33,10 @@ gen scenario_path size:
 
 	for table in "${tables[@]}"; do
 		info "generate $table.csv ..."
-		<"$data" >"$OUT/$table.csv" jq -r ".$table | (map(keys) | add | unique) as \$cols | map(. as \$row | \$cols | map(\$row[.])) as \$rows | \$cols, \$rows[] | @csv"
+		target="$OUT/$table.csv"
+		<"$IN/$table.fields" paste -sd, >"$target"
+		fields=$(<"$IN/$table.fields" sed 's/.*/\.&/' |  paste -sd,)
+		<"$data" jq ".$table[] | [$fields] | @csv" -r >>"$target"
 	done
 
 @clean:
