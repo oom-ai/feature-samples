@@ -1,5 +1,7 @@
 set positional-arguments
 
+seed := "0"
+
 list:
 	#!/usr/bin/env bash
 	for f in ./scenarios/*; do
@@ -29,7 +31,7 @@ gen scenario_path size:
 	done
 
 	info "run synth ..."
-	synth generate "$IN" --size "{{ size }}" > "$data"
+	synth generate "$IN" --size "{{ size }}" --seed {{ seed }} > "$data"
 
 	for table in "${tables[@]}"; do
 		info "generate $table.csv ..."
