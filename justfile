@@ -14,19 +14,20 @@ gen scenario_path size:
 	warn() { printf "%b[warn]%b %s\n" '\e[0;33m\033[1m' '\e[0m' "$*" >&2; }
 	erro() { printf "%b[erro]%b %s\n" '\e[0;31m\033[1m' '\e[0m' "$*" >&2; }
 
-
 	scenario_name=$(basename "{{ scenario_path }}")
-	OUT="build/$scenario_name"
+	IN="build/$scenario_name/in"
+	OUT="build/$scenario_name/out"
 	data="$OUT/$scenario_name.json"
 	tables=()
-	mkdir -p "$OUT"
+	mkdir -p "$IN" "$OUT"
 
 	for f in "{{ scenario_path }}"/*.json; do
 		tables+=("$(basename "$f" .json)")
+		< "$f" sed 's/"{{{{SIZE}}"/{{ size }}/g' > "$IN/$(basename "$f")"
 	done
 
 	info "run synth ..."
-	synth generate "{{ scenario_path }}" --size "{{ size }}" > "$data"
+	synth generate "$IN" --size "{{ size }}" > "$data"
 
 	for table in "${tables[@]}"; do
 		info "generate $table.csv ..."

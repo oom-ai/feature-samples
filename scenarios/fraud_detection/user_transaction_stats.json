@@ -3,7 +3,7 @@
   "length": {
     "type": "number",
     "subtype": "u64",
-    "constant": 10
+    "constant": "{{SIZE}}"
   },
   "content": {
     "type": "object",

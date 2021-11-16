@@ -3,14 +3,14 @@
   "length": {
     "type": "number",
     "subtype": "u64",
-    "constant": 10
+    "constant": "{{SIZE}}"
   },
   "content": {
     "user": {
       "type": "number",
       "subtype": "u64",
       "id": {
-        "start_at": 1001
+        "start_at": 1
       }
     },
     "state": {
