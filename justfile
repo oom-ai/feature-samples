@@ -23,11 +23,11 @@ gen scenario_path size:
 	erro() { printf "%b[erro]%b %s\n" '\e[0;31m\033[1m' '\e[0m' "$*" >&2; }
 
 	scenario_name="$(basename "{{ scenario_path }}")"
-	epoch="$(date +%s)"
-	IN="build/$scenario_name/$epoch/in"
-	OUT="build/$scenario_name/$epoch/out"
+	IN="build/$scenario_name/in"
+	OUT="build/$scenario_name/out"
 	data="$OUT/.data.json"
 	tables=()
+	rm -rf "$IN" "$OUT"
 	mkdir -p "$IN" "$OUT"
 
 	for f in "{{ scenario_path }}"/*.json; do
