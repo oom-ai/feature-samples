@@ -1,6 +1,8 @@
 set positional-arguments
 
 seed := "0"
+start := `date -d yesterday`
+end := `date`
 
 list:
 	#!/usr/bin/env bash
@@ -11,6 +13,10 @@ list:
 gen scenario_path size:
 	#!/usr/bin/env bash
 	set -euo pipefail
+
+	SIZE={{ size }}
+	START=$(date -d '{{ start }}' +%s)
+	END=$(date -d '{{ end }}' +%s)
 
 	info() { printf "%b[info]%b %s\n" '\e[0;32m\033[1m' '\e[0m' "$*" >&2; }
 	warn() { printf "%b[warn]%b %s\n" '\e[0;33m\033[1m' '\e[0m' "$*" >&2; }
@@ -26,8 +32,12 @@ gen scenario_path size:
 
 	for f in "{{ scenario_path }}"/*.json; do
 		table="$(basename "$f" .json)"
-		< "$f" sed 's/"{{{{SIZE}}"/{{ size }}/g' > "$IN/$(basename "$f")"
-		< "$f" jq '.content | keys_unsorted[]' -r | grep -v type > "$IN/$table.fields"
+		cat "$f" |
+			sed "s/\"{{{{SIZE}}\"/$SIZE/g" |
+			sed "s/\"{{{{START}}\"/$START/g" |
+			sed "s/\"{{{{END}}\"/$END/g" \
+			>"$IN/$(basename "$f")"
+		< "$f" jq '.content | keys_unsorted[]' -r |grep -v type > "$IN/$table.fields"
 		tables+=("$table")
 	done
 
